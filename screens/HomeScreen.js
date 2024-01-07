@@ -19,7 +19,7 @@ import Categories from '../components/categories';
 
 const styles = StyleSheet.create({
   imageStyle: {
-    width: 50, // Set the width and height for your image
+    width: 50,
     height: 50,
     padding: 7,
     borderRadius: 25,
