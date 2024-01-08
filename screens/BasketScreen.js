@@ -28,12 +28,11 @@ export default function BasketScreen() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('Items in basket:', items);
     const groupedItems = items.reduce((results, item) => {
       (results[item.id] = results[item.id] || []).push(item);
       return results;
     });
-    console.log('Grouped items:', groupedItems);
+
     setGroupedItemsInBasket(groupedItems);
   }, [items]);
 
@@ -44,7 +43,7 @@ export default function BasketScreen() {
           <View>
             <Text className="text-lg font-bold text-center">Basket</Text>
             <Text className="text-center text-gray-400">
-              {restaurant?.title}
+              {restaurant.title}
             </Text>
           </View>
 
@@ -72,42 +71,43 @@ export default function BasketScreen() {
         </View>
 
         <ScrollView className="divide-y divide-gray-200">
-          {Object.entries(groupedItemsInBasket).map(([key, items]) => {
+          {/* {Object.entries(groupedItemsInBasket).map(([key, items]) => {
             if (!items) {
               return null;
             }
-            return (
-              <View
-                key={key}
-                className="flex-row items-center space-x-3 bg-white py-2 px-5"
-              >
-                <Text className="text-[#00CCBB]">{items.length} x</Text>
-                {items[0]?.image && (
-                  <Image
-                    source={{
-                      uri: urlFor(items[0]?.image).url(),
-                    }}
-                    className="h-12 w-12 rounded-full"
-                  />
+            return ( */}
+          {items.map((item) => (
+            <View
+              key={item.id}
+              className="flex-row items-center space-x-3 bg-white py-2 px-5"
+            >
+              <Text className="text-[#00CCBB]">{items.length} x</Text>
+              {items[0]?.image && (
+                <Image
+                  source={{
+                    uri: urlFor(items[0]?.image).url(),
+                  }}
+                  className="h-12 w-12 rounded-full"
+                />
+              )}
+              <Text className="flex-1">{item.name} </Text>
+              <Image source={{ uri: urlFor(item.image).url() }} />
+              <Text className="text-gray-600">
+                {items.length > 0 && (
+                  <Currency quantity={items[0]?.price} currency="EUR" />
                 )}
-                <Text className="flex-1">{items[0]?.name} </Text>
-                <Text className="text-gray-600">
-                  {items.length > 0 && (
-                    <Currency quantity={items[0]?.price} currency="EUR" />
-                  )}
-                </Text>
+              </Text>
 
-                <TouchableOpacity>
-                  <Text
-                    onPress={() => dispatch(removeFromBasket({ id: key }))}
-                    className="text-[#00CCBB] text-xs"
-                  >
-                    Remove
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            );
-          })}
+              <TouchableOpacity>
+                <Text
+                  onPress={() => dispatch(removeFromBasket({ id: item.id }))}
+                  className="text-[#00CCBB] text-xs"
+                >
+                  Remove
+                </Text>
+              </TouchableOpacity>
+            </View>
+          ))}
         </ScrollView>
 
         <View className="p-5 bg-white mt-5 space-y-4">

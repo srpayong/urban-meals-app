@@ -13,7 +13,7 @@ export const basketSlice = createSlice({
     },
 
     removeFromBasket: (state, action) => {
-      const index = state.items.findIndex(
+      const existingItemIndex = state.items.findIndex(
         (item) => item.id === action.payload.id,
       );
 
