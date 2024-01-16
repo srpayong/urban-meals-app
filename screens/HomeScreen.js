@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useLayoutEffect } from 'react';
+import { createClient } from '@sanity/client';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import {
   Image,
   SafeAreaView,
@@ -15,7 +16,9 @@ import {
   MagnifyingGlassIcon,
   UserIcon,
 } from 'react-native-heroicons/outline';
-import Categories from '../components/categories';
+import Categories from '../components/Categories';
+import FeaturedRow from '../components/FeaturedRow';
+import sanityClient from '../sanity';
 
 const styles = StyleSheet.create({
   imageStyle: {
@@ -28,13 +31,32 @@ const styles = StyleSheet.create({
 
 export default function HomeScreen() {
   const navigation = useNavigation();
+  const [featuredCategories, setFeaturedCategories] = useState([]);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
 
-  const localImage = require('../assets/photo1.png');
+  const localImage = require('../assets/photo2.png');
+
+  useEffect(() => {
+    sanityClient
+      .fetch(
+        `
+         *[_type == "featured"] {
+             ...,
+           restaurants[]->{
+             ...,
+            dishes[]->
+      }
+    }
+    `,
+      )
+      .then((data) => {
+        setFeaturedCategories(data);
+      });
+  }, []);
 
   return (
     <SafeAreaView className="bg-white pt-5">
@@ -51,7 +73,7 @@ export default function HomeScreen() {
       </View>
 
       {/* Search */}
-      <View className="flex-row items-center space-x-2 pb-2 mx-4 px-4">
+      <View className="flex-row items-center space-x-2 pb-2 mx-4">
         <View className="flex-row flex-1 space-x-2 bg-gray-200 p-3">
           <MagnifyingGlassIcon color="gray" size={20} />
           <TextInput
@@ -72,7 +94,15 @@ export default function HomeScreen() {
         {/*Categories */}
         <Categories />
 
-        {/*Featured */}
+        {/*Featured Rows*/}
+        {featuredCategories?.map((category) => (
+          <FeaturedRow
+            key={category._id}
+            id={category._id}
+            title={category.name}
+            description={category.short_description}
+          />
+        ))}
       </ScrollView>
     </SafeAreaView>
   );
