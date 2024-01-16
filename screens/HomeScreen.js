@@ -38,7 +38,7 @@ export default function HomeScreen() {
     });
   }, []);
 
-  const localImage = require('../assets/photo1.png');
+  const localImage = require('../assets/photo2.png');
 
   useEffect(() => {
     sanityClient
@@ -95,7 +95,6 @@ export default function HomeScreen() {
         <Categories />
 
         {/*Featured Rows*/}
-
         {featuredCategories?.map((category) => (
           <FeaturedRow
             key={category._id}

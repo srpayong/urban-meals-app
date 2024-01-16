@@ -35,7 +35,7 @@ export default function DeliveryScreen() {
             </View>
             <Image
               source={require('../assets/orderloading.gif')}
-              className="h-20 w-20"
+              className="h-20 w-10"
             />
           </View>
 
@@ -71,7 +71,7 @@ export default function DeliveryScreen() {
 
       <SafeAreaView className="bg-white flex-row items-center space-x-5 h-28">
         <Image
-          source={require('../assets/orderloading.gif')}
+          source={require('../assets/photo1.png')}
           className="h-12 w-12 bg-gray-300 p-4 rounded-full ml-5"
         />
         <View className="flex-1">
