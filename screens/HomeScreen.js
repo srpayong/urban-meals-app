@@ -16,7 +16,7 @@ import {
   MagnifyingGlassIcon,
   UserIcon,
 } from 'react-native-heroicons/outline';
-import Categories from '../components/Categories';
+import Categories from '../components/categories';
 import FeaturedRow from '../components/FeaturedRow';
 import sanityClient from '../sanity';
 
